@@ -1,0 +1,27 @@
+{
+  "name": "view",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "test": "cross-env DEBUG=detect DEBUG_COLORS=true vitest"
+  },
+  "dependencies": {
+    "vue": "^3.3.11"
+  },
+  "devDependencies": {
+    "@sepveneto/eslint-config": "^0.9.1",
+    "@types/debug": "^4.1.12",
+    "@vitejs/plugin-vue": "^4.5.2",
+    "cross-env": "^7.0.3",
+    "debug": "^4.3.4",
+    "eslint": "^8.56.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vitest": "^1.2.2",
+    "vue-tsc": "^1.8.25"
+  }
+}
