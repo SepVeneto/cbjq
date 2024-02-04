@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { canPlace, tryPlace } from './detect'
-import { Shape } from './Shape'
-import { ONE, TWO } from './constant'
+import { Two } from './Shape'
+import { ONE } from './constant'
 
 test('place shape', () => {
   expect(canPlace([
@@ -42,18 +42,23 @@ test('place failed', () => {
 })
 
 test('can place two rotate', () => {
-  const two = new Shape(TWO)
-  two.rotate()
+  const two = new Two()
+  let shape = two.place() as number[][]
   expect(canPlace([
     [0, 0, 0, 0, 0, 0],
-  ], two.shape, [0, 0])).toBe(true)
+  ], shape, [0, 0])).toBe(false)
+
+  shape = two.place() as number[][]
+  expect(canPlace([
+    [0, 0, 0, 0, 0, 0],
+  ], shape, [0, 0])).toBe(true)
 })
 
 test('try place rotate', () => {
   const grid = [
     [0, 0, 0, 0, 0, 0],
   ]
-  tryPlace(grid, new Shape(TWO, 1), [0, 0])
+  tryPlace(grid, new Two(), [0, 0])
   // place(grid, ONE, [0, 0])
   expect(grid).toStrictEqual([
     [2, 2, 2, 2, 0, 0],

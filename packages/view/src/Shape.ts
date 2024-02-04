@@ -1,9 +1,14 @@
+import { EIGHT, FIVE, FOUR, NINE, ONE, SEVEN, SIX, THREE, TWO } from './constant'
 export class Shape {
-  shape: number[][]
+  protected rotateNum = 0
+  private currentRotate = 0
+  private shape: number[][]
+  private gen
   num: number
   constructor(shape: number[][], num = 1) {
     this.shape = shape
     this.num = num
+    this.gen = this.genPlace()
   }
 
   get rows() {
@@ -28,6 +33,88 @@ export class Shape {
       }
     }
     this.shape = res
+    return this.shape
+  }
+
+  private * genPlace() {
+    while (this.currentRotate <= this.rotateNum) {
+      yield this.shape
+      this.rotate()
+      ++this.currentRotate
+    }
+    return this.shape
+  }
+
+  place() {
+    const { value, done } = this.gen.next()
+    // const { next } = this.genPlace()
+    // const { value, done } = next()
+    if (done) return false
+
+    return value
+  }
+}
+
+export class One extends Shape {
+  constructor(num = 1) {
+    super(ONE, num)
+    this.rotateNum = 0
+  }
+}
+
+export class Two extends Shape {
+  constructor(num = 1) {
+    super(TWO, num)
+    this.rotateNum = 1
+  }
+}
+
+export class Three extends Shape {
+  constructor(num = 1) {
+    super(THREE, num)
+    this.rotateNum = 1
+  }
+}
+
+export class Four extends Shape {
+  constructor(num = 1) {
+    super(FOUR, num)
+    this.rotateNum = 1
+  }
+}
+
+export class Five extends Shape {
+  constructor(num = 1) {
+    super(FIVE, num)
+    this.rotateNum = 3
+  }
+}
+
+export class Six extends Shape {
+  constructor(num = 1) {
+    super(SIX, num)
+    this.rotateNum = 3
+  }
+}
+
+export class Seven extends Shape {
+  constructor(num = 1) {
+    super(SEVEN, num)
+    this.rotateNum = 3
+  }
+}
+
+export class Eight extends Shape {
+  constructor(num = 1) {
+    super(EIGHT, num)
+    this.rotateNum = 0
+  }
+}
+
+export class Nine extends Shape {
+  constructor(num = 1) {
+    super(NINE, num)
+    this.rotateNum = 0
   }
 }
 

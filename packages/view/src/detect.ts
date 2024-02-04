@@ -1,15 +1,15 @@
-import { Shape } from './Shape'
+import type { Shape } from './Shape'
 import {
-  EIGHT,
-  FIVE,
-  FOUR,
-  NINE,
-  ONE,
-  SEVEN,
-  SIX,
-  THREE,
-  TWO,
-} from './constant'
+  Eight,
+  Five,
+  Four,
+  Nine,
+  One,
+  Seven,
+  Six,
+  Three,
+  Two,
+} from './Shape'
 import { createDebug } from './utils'
 const debug = createDebug('detect')
 
@@ -89,34 +89,39 @@ function initShapes(collect: Collect): Shape[] {
     const num = collect[key]
     switch (key) {
       case 'one':
-        return new Shape(ONE, num)
+        return new One(num)
       case 'two':
-        return new Shape(TWO, num)
+        return new Two(num)
       case 'three':
-        return new Shape(THREE, num)
+        return new Three(num)
       case 'four':
-        return new Shape(FOUR, num)
+        return new Four(num)
       case 'five':
-        return new Shape(FIVE, num)
+        return new Five(num)
       case 'six':
-        return new Shape(SIX, num)
+        return new Six(num)
       case 'seven':
-        return new Shape(SEVEN, num)
+        return new Seven(num)
       case 'eight':
-        return new Shape(EIGHT, num)
+        return new Eight(num)
       default:
-        return new Shape(NINE, num)
+        return new Nine(num)
     }
   })
 }
 
 export function tryPlace(grid: number[][], shape: Shape, [row, col]: number[], count = 0) {
-  if (!shape.num || count === 4) return false
-  if (canPlace(grid, shape.shape, [row, col])) {
-    place(grid, shape.shape, [row, col])
-    return true
-  } else {
-    shape.rotate()
-    return tryPlace(grid, shape, [row, col], count + 1)
+  if (!shape.num) return false
+  let res = shape.place()
+  while (res) {
+    if (canPlace(grid, res, [row, col])) {
+      place(grid, res, [row, col])
+      return true
+    } else {
+      if (tryPlace(grid, shape, [row, col], count + 1)) {
+        return true
+      }
+    }
+    res = shape.place()
   }
 }
