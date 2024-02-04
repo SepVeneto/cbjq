@@ -72,6 +72,7 @@ export function run(_grid: number[][], collect: Collect) {
   for (let row = 0; row < grid.length; ++row) {
     for (let col = 0; col < grid[row].length; ++col) {
       for (const shape of shapes) {
+        shape.reset()
         if (tryPlace(grid, shape, [row, col])) {
           --shape.num
           break
@@ -112,8 +113,8 @@ function initShapes(collect: Collect): Shape[] {
 
 export function tryPlace(grid: number[][], shape: Shape, [row, col]: number[], count = 0) {
   if (!shape.num) return false
-  let res = shape.place()
-  while (res) {
+  const res = shape.place()
+  if (res) {
     if (canPlace(grid, res, [row, col])) {
       place(grid, res, [row, col])
       return true
@@ -122,6 +123,5 @@ export function tryPlace(grid: number[][], shape: Shape, [row, col]: number[], c
         return true
       }
     }
-    res = shape.place()
   }
 }

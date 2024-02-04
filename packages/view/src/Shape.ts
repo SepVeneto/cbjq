@@ -23,6 +23,10 @@ export class Shape {
     return this.shape[row][col]
   }
 
+  reset() {
+    this.currentRotate = 0
+  }
+
   rotate() {
     const res = createMatrix(this.cols, this.rows)
     for (let row = 0; row < this.rows; row++) {
@@ -37,7 +41,7 @@ export class Shape {
   }
 
   private * genPlace() {
-    while (this.currentRotate <= this.rotateNum) {
+    while (true) {
       yield this.shape
       this.rotate()
       ++this.currentRotate
@@ -46,10 +50,13 @@ export class Shape {
   }
 
   place() {
-    const { value, done } = this.gen.next()
+    const { value } = this.gen.next()
     // const { next } = this.genPlace()
     // const { value, done } = next()
-    if (done) return false
+    if (this.currentRotate > this.rotateNum) {
+      this.currentRotate = 0
+      return false
+    }
 
     return value
   }
