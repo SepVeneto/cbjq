@@ -37,6 +37,12 @@ export class Shape {
     this.gen = this.genPlace()
   }
 
+  get offset() {
+    let _offset = 0
+    while (!this.shape[0][_offset]) ++_offset
+    return _offset
+  }
+
   get size() {
     const rLen = this.shape.length
     const cLen = this.shape[0].length

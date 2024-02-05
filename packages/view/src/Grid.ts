@@ -7,13 +7,19 @@ export class Grid {
   constructor(row: number, col: number) {
     this.grid = new Array(row).fill('').map(_ => new Array(col).fill(0))
     // this.grid = [
-    //   [4, 0, 0, 0, 0, 0],
-    //   [4, 4, 0, 0, 0, 0],
-    //   [0, 4, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, -1],
+    //   [0, 0, 0, 0, 0, -1],
     //   [0, 0, 0, 0, 0, 0],
-    //   [0, 0, 0, 0, 0, 0],
+    //   [-1, 0, 0, 0, 0, 0],
+    //   [-1, 0, 0, 0, 0, 0],
     // ]
     this.initEmpty()
+  }
+
+  toggle(row: number, col: number) {
+    const state = this.grid[row][col]
+    this.grid[row][col] = state === 0 ? -1 : 0
+    this.gridMap.set(toCoords(row, col), this.grid[row][col])
   }
 
   get empty() {
@@ -37,17 +43,23 @@ export class Grid {
       return this.gridMap.get(coord) === 0
     }
 
+    const offset = shape.offset
+    col -= offset
+    if (col < 0) return false
     for (let r = 0; r < shape.size.r; r++) {
       for (let c = 0; c < shape.size.c; c++) {
         const coord = toCoords(row + r, col + c)
         const state = this.gridMap.get(coord)
-        if (state == null || (state !== 0 && shape.getPos(r, c) !== 0)) return false
+        if (state === -1 || state == null || (state !== 0 && shape.getPos(r, c) !== 0)) return false
       }
     }
     return true
   }
 
   put(row: number, col: number, shape: Shape, value?: number) {
+    const offset = shape.offset
+    col -= offset
+
     for (let r = 0; r < shape.size.r; r++) {
       for (let c = 0; c < shape.size.c; c++) {
         const coord = toCoords(row + r, col + c)

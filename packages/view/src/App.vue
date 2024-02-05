@@ -1,10 +1,33 @@
 <template>
   <section style="display: flex; gap: 10px; flex-wrap: wrap;">
+    <div>
+      <button @click="handleClick">
+        click me
+      </button>
+      <table>
+        <tbody @click="handleToggle">
+          <tr
+            v-for="(row, ri) in grid.grid"
+            :key="`row-${ri}`"
+          >
+            <td
+              v-for="(column, ci) in row"
+              :Key="`column-${ci}`"
+              :class="[column ? 'fill' : 'blank', `shape-${column}`]"
+              :data-col="ci"
+              :data-row="ri"
+            >
+              {{ column }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <table
-      v-for="(answer, index) in answerList"
+      v-for="(answer, index) in grid.answerList"
       :key="index"
     >
-      <tbody @click="handleToggle">
+      <tbody>
         <tr
           v-for="(row, ri) in answer"
           :key="`row-${ri}`"
@@ -26,7 +49,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { run, execute } from './detect'
+import { execute, executeUtils, run } from './detect'
 
 const GRID = [5, 6]
 
@@ -39,18 +62,22 @@ for (let row = 0; row < GRID[0]; ++row) {
   }
 }
 const COLLECT = {
-  one: 0,
-  two: 0,
-  three: 1,
-  four: 1,
-  five: 1,
+  one: 1,
+  two: 2,
+  three: 8,
+  four: 6,
+  five: 5,
   six: 2,
-  seven: 0,
-  eight: 2,
+  seven: 5,
+  eight: 1,
   nine: 0,
 }
-const answerList = execute(5, 6, COLLECT)
+const grid = ref(execute(5, 6, COLLECT))
 // const answers = run(grids.value, COLLECT)
+
+function handleClick() {
+  executeUtils(grid.value)
+}
 
 function handleToggle(evt: MouseEvent) {
   const target = evt.target as HTMLElement
@@ -59,8 +86,7 @@ function handleToggle(evt: MouseEvent) {
 
   const colIndex = Number(col)
   const rowIndex = Number(row)
-  const state = grids.value[rowIndex][colIndex]
-  grids.value[rowIndex][colIndex] = state === 0 ? -1 : 0
+  grid.value.toggle(rowIndex, colIndex)
 }
 </script>
 

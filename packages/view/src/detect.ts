@@ -138,15 +138,15 @@ export function execute(row: number, col: number, collect: any) {
   const grid = new Grid(row, col)
   // const shapes = initShapes(COLLECT)
 
-  executeUtils(grid)
-  if (grid.answerList.length === 0) {
-    grid.answer()
-  }
-  return grid.answerList
+  // executeUtils(grid)
+  // if (grid.answerList.length === 0) {
+  //   grid.answer()
+  // }
+  return grid
 }
 
-function executeUtils(grid: Grid, count = 0) {
-  if (grid.grid[0][0] === 4) debugger
+export function executeUtils(grid: Grid, count = 0) {
+  // if (grid.grid[0][0] === 4) debugger
   if (count === grid.size.c * grid.size.r) {
     grid.answer()
     return false
