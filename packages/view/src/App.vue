@@ -1,30 +1,32 @@
 <template>
-  <table
-    v-for="(answer, index) in answers"
-    :key="index"
-  >
-    <tbody @click="handleToggle">
-      <tr
-        v-for="(row, ri) in answer"
-        :key="`row-${ri}`"
-      >
-        <td
-          v-for="(column, ci) in row"
-          :Key="`column-${ci}`"
-          :class="[column ? 'fill' : 'blank', `shape-${column}`]"
-          :data-col="ci"
-          :data-row="ri"
+  <section style="display: flex; gap: 10px; flex-wrap: wrap;">
+    <table
+      v-for="(answer, index) in answerList"
+      :key="index"
+    >
+      <tbody @click="handleToggle">
+        <tr
+          v-for="(row, ri) in answer"
+          :key="`row-${ri}`"
         >
-          {{ column }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <td
+            v-for="(column, ci) in row"
+            :Key="`column-${ci}`"
+            :class="[column ? 'fill' : 'blank', `shape-${column}`]"
+            :data-col="ci"
+            :data-row="ri"
+          >
+            {{ column }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { run } from './detect'
+import { run, execute } from './detect'
 
 const GRID = [5, 6]
 
@@ -37,17 +39,18 @@ for (let row = 0; row < GRID[0]; ++row) {
   }
 }
 const COLLECT = {
-  one: 3,
-  two: 3,
-  three: 3,
-  four: 3,
-  five: 3,
-  six: 3,
-  seven: 3,
-  eight: 3,
+  one: 0,
+  two: 0,
+  three: 1,
+  four: 1,
+  five: 1,
+  six: 2,
+  seven: 0,
+  eight: 2,
   nine: 0,
 }
-const answers = run(grids.value, COLLECT)
+const answerList = execute(5, 6, COLLECT)
+// const answers = run(grids.value, COLLECT)
 
 function handleToggle(evt: MouseEvent) {
   const target = evt.target as HTMLElement

@@ -23,12 +23,10 @@ export const FOUR = [
 export const FIVE = [
   [0, 5],
   [0, 5],
-  [0, 5],
   [5, 5],
 ]
 
 export const SIX = [
-  [6, 0],
   [6, 0],
   [6, 0],
   [6, 6],
